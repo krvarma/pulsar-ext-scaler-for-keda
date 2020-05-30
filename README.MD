@@ -473,7 +473,11 @@ Apply the YAML file using the following command:
 
 If everything goes well, you can see the external scaler pod running.
 
+![External Scaler running](https://raw.githubusercontent.com/krvarma/pulsar-ext-scaler-for-keda/master/images/pulsar-ext-scaler-running.png?token=AA46XG364NQQGQRUIRRAUWK63OWBO)
+
 Let us check the logs to see the server is running without any errors.
+
+![External Scalar logs](https://raw.githubusercontent.com/krvarma/pulsar-ext-scaler-for-keda/master/images/pulsar-ext-scaler-logs.png?token=AA46XGZOBBRTSIABK3RVF5K63OWIY)
 
 Now we have successfully deployed our external scaler to the cluster. The next step is to create an Apache Pulsar consumer so that we can test our scalar. We can use Golang using [Golang Pulsar Client SDK](https://github.com/apache/pulsar-client-go) to build a consumer. I modified one of the SDK example code to meet our needs. Here is the source code.
 
@@ -638,6 +642,8 @@ Let us deploy the pulsar consumer.
 
 Once the deployment is over, you can check with `kubectl get pods` to check whether pods are created running. You can see that no pods are running; this is because KEDA scaled it to zero. You can check the deployments using the `kubectl get deploy` command.
 
+![Scaler Deployment](https://raw.githubusercontent.com/krvarma/pulsar-ext-scaler-for-keda/master/images/pulsar-consumer-deployment.png?token=AA46XG3JCMF3KO5Y6YY32S263OWO2)
+
 To send a message to the topic, we can use one of the example code of Apache Pulsar Go Client. Following is the modified code.
 
     package main
@@ -699,5 +705,7 @@ To send a message to the topic, we can use one of the example code of Apache Pul
 Let us send a message to a topic and see whether the external scaler picks it up and scale our consumer.
 
 We can check by getting the pods. You can see the pods are created and running. You can wait for 100 seconds and verify it is terminating automatically.
+
+![Scaler running and terminating](https://raw.githubusercontent.com/krvarma/pulsar-ext-scaler-for-keda/master/images/pulsar-consumer-runing-and-terminating.png?token=AA46XG7XRBR5EFTAXZ5B46C63OWSS)
 
 We have successfully developed an external scaler. I hope this article gives you a gentle introduction to the external scaler for KEDA and how to develop one. You don't need to use Golang for the development, any language that supports gRPC can use for development.
