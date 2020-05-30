@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pulsar-consumer
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: pulsar-consumer
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: pulsar-consumer
+    spec:
+      containers:
+      - name: pulsar-consumer
+        image: docker.io/krvarma/pulsarconsumer
+        imagePullPolicy: Always
+---
+apiVersion: keda.k8s.io/v1alpha1
+kind: ScaledObject
+metadata:
+    name: pulsar-consumer-scaledobject
+    namespace: default
+    labels:
+        deploymentName: pulsar-consumer
+spec:
+    pollingInterval: 10   # Optional. Default: 30 seconds
+    cooldownPeriod: 100  # Optional. Default: 300 seconds
+    minReplicaCount: 0   # Optional. Default: 0
+    maxReplicaCount: 30  # Optional. Default: 100  
+    scaleTargetRef:
+        deploymentName: pulsar-consumer
+    triggers:
+    - type: external
+      metadata:
+        scalerAddress: pulsar-ext-scaler-service:8091
+        server: "http://ubuntuserver:8080"
+        persistent: "true"
+        backlog: "10"
+        tenant: "public"
+        namespace: "default"
+        topic: "my-topic"
+        subscription: "first-subscription"    
