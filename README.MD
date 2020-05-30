@@ -1,4 +1,5 @@
 # Developing external scaler for KEDA
+![enter image description here](https://raw.githubusercontent.com/krvarma/pulsar-ext-scaler-for-keda/master/images/ext-scalar-keda.png?token=AA46XG65DJAK2MZTZMAVJ7263OV3C)
 In my [previous article](https://medium.com/swlh/event-driven-autoscaling-of-kubernetes-workloads-using-keda-12524f8ade3), we looked into how to auto-scale an Azure Function with RabbitMQ trigger using KEDA. In this article, we will explore how to develop a custom external scaler for KEDA. In this article, we will create an external scaler for [Apache Pulsar](https://pulsar.apache.org/).
 
 # What is KEDA?
